@@ -4,6 +4,25 @@ Open Occupation Blueprint for **ISCO-08 4214**: Debt Collectors and Related Work
 
 This repository designs a forkable OSS business for an independent debt collection and recovery practice: a correspondence handling robot prepares and dispatches collection notices under a governor-gated actor, so the practice keeps its own collection records instead of renting a closed collections SaaS.
 
+**Maturity: `:implemented`.** `src/debtcollection/` implements the
+`DebtCollectionActor` as a `langgraph.graph/state-graph`
+(`debtcollection.actor`) wired to a `Collection Advisor` (`debtcollection.advisor`)
+and an independent `DebtCollectionGovernor` (`debtcollection.governor`),
+following the itonami actor pattern (ADR-2607011000): `:intake -> :advise
+-> :govern -> :decide -+-> :commit (:ok?) +-> :request-approval (:escalate?,
+human-in-the-loop interrupt) +-> :hold (:hard?)`. 14 tests / 30 assertions
+green (`clojure -M:test`). HARD invariants (always hold, never
+overridable): client provenance, no-actuation (`:effect` must be
+`:propose`), a registered account basis for any contact-attempt
+proposal, the proposed contact hour falling inside the account's
+registered permitted-contact window (contacting a debtor outside the
+registered window is a harassment risk, not diligence), and no
+harassment/threat language flag (harassment or threat language is
+refused by construction, not merely discouraged). Always-escalate ops
+(human sign-off regardless of confidence, mapping this repo's Trust
+Controls in [`docs/business-model.md`](docs/business-model.md)):
+`:approve-off-hours-contact` and `:approve-settlement-offer`.
+
 ## Robotics premise
 
 All cloud-itonami verticals are designed on the premise that a **robot performs
