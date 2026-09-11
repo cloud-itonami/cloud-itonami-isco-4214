@@ -11,7 +11,7 @@ and an independent `DebtCollectionGovernor` (`debtcollection.governor`),
 following the itonami actor pattern (ADR-2607011000): `:intake -> :advise
 -> :govern -> :decide -+-> :commit (:ok?) +-> :request-approval (:escalate?,
 human-in-the-loop interrupt) +-> :hold (:hard?)`. 14 tests / 30 assertions
-green (`clojure -M:test`). HARD invariants (always hold, never
+green (`kbb -M:test`). HARD invariants (always hold, never
 overridable): client provenance, no-actuation (`:effect` must be
 `:propose`), a registered account basis for any contact-attempt
 proposal, the proposed contact hour falling inside the account's
