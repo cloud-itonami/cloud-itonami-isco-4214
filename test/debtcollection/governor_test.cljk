@@ -1,5 +1,5 @@
 (ns debtcollection.governor-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [debtcollection.store :as store]
             [debtcollection.governor :as governor]))
 

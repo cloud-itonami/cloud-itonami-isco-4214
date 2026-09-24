@@ -1,5 +1,5 @@
 (ns debtcollection.actor-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [debtcollection.actor :as actor]
             [debtcollection.store :as store]))
 
