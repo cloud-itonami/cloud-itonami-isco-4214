@@ -1,0 +1,31 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:physics` runs it.
+;;
+;; README "Robotics premise": a correspondence handling robot performs
+;; collection-notice printing, envelope stuffing and mailing-queue management
+;; (ISCO 4214). Its physical work is lifting envelope trays into the inserter,
+;; and carrying filled mail trays to the outgoing-mail dock.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isco-4214"
+ :cases
+ [{:id :envelope-tray-to-inserter
+   :kind :manipulator
+   :procedure "arm lifts a tray of printed notices and envelopes from the printer output onto the inserter's feed station"
+   :params {:l1-m 0.45 :l2-m 0.40 :m1-kg 3.5 :m2-kg 2.5
+            :from [0.55 0.05] :to [0.30 0.55] :duration-s 2.0 :steps 400}
+   :sweep {:param :payload-kg :values [0.5 1.0 2.0 4.0 7.0]}
+   :quantity :peak-tau1-nm
+   :limit {:max 60.0 :basis "estimate: continuous shoulder torque of a light collaborative arm (~5 kg class)"}
+   :boundary {:lo 0.1 :hi 20.0}}
+  {:id :mail-trays-to-dock
+   :kind :transport
+   :procedure "robot carries a cart of filled mail trays from the inserter to the outgoing-mail dock before the carrier pickup"
+   :params {:mass-kg 50.0 :v-max-mps 1.0 :a-max-mps2 0.5 :distance-m 60.0
+            :brake-decel-mps2 0.8 :drive-force-n 110.0 :crr 0.02
+            :cog-height-m 0.60 :support-half-length-m 0.30}
+   :sweep {:param :payload-kg :values [10.0 40.0 80.0 150.0 250.0]}
+   :quantity :cycle-time-s
+   :limit {:max 70.0 :basis "estimate: one dock run inside a 70 s slot so the last trays make the carrier pickup"}
+   :boundary {:lo 1.0 :hi 450.0}}]}
