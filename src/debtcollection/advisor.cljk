@@ -15,7 +15,7 @@
                :rationale str}"
   ;; clojure.edn, not clojure.core/read-string: this parses untrusted
   ;; advisor output, and the core reader executes #=(...) at read time.
-  (:require [clojure.edn :as edn]))
+  (:require [kotoba.lang.edn :as edn]))
 
 (defprotocol Advisor
   (-advise [advisor store request] "request -> proposal map"))
