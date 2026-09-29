@@ -1,6 +1,6 @@
 (ns debtcollection.store
   "SSoT for the ISCO-08 4214 independent debt collection & recovery
-  practice actor (itonami actor pattern, ADR-2607011000 / CLAUDE.md
+  practice actor (itonami actor pattern, ADR-2607011000 / AGENTS.md
   Actors section; README's 'Robotics premise' — a correspondence
   handling robot performs collection-notice printing, envelope
   stuffing and mailing-queue management under this advisor/governor
